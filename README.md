@@ -97,12 +97,14 @@ and can replace any of these photos directly — same file paths, same treatment
 `founder-clyde.jpg` is a real photo of RADA AI's founder & CEO — confirmed by the client, pulled
 from a shared personal album at their direction (not stock, not AI-generated). This is deliberately
 the only photo on the site with an identifiable person, because he actually is affiliated with the
-company. Before launch, confirm with the client directly:
+company.
 
-- Full name as it should appear (currently just "Clyde" — first name only; the Companies Registry
-  record gives "CLYDE ATSANGO MUTSOTSO" as director/shareholder, if that's the right full name to use)
-- Exact title wording (currently "Founder & Chief Executive Officer")
-- A real bio/credentials line (currently a generic placeholder sentence)
+Name, title and bio are now filled in with real, client-confirmed information (sourced from his
+LinkedIn profile — CPA, BA Economics and MBA Finance from the University of Nairobi, LLB in
+progress, career started at KRA, currently also Managing Partner of Clyde & Associates). Only
+remaining thing to double-check with the client: whether "Founder & Chief Executive Officer" is
+the exact title they want displayed for the RADA AI role specifically, since his LinkedIn headline
+lists his Clyde & Associates title, not a RADA AI one.
 
 The source album also contained personal/family photos — only this one professional shot was used.
 
