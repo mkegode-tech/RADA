@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = __dirname;
-const SITE_URL = "https://www.radaai.com"; // placeholder — update once the domain is live
+const SITE_URL = "https://radaai.ai";
 
 const header = fs.readFileSync(path.join(ROOT, "src/partials/header.html"), "utf8");
 const footer = fs.readFileSync(path.join(ROOT, "src/partials/footer.html"), "utf8");

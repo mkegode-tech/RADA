@@ -76,6 +76,9 @@
 
   // Diagnostic / contact form — front-end only.
   // Wire this to the firm's CRM / email-automation endpoint before go-live (see README).
+  // Submits to Netlify Forms (see the form's data-netlify/form-name attributes in contact.html).
+  // On any host other than Netlify this POST 404s — the catch block below still tells the
+  // visitor something went wrong rather than falsely claiming success.
   var form = document.querySelector("[data-diagnostic-form]");
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -87,14 +90,32 @@
       var status = form.querySelector(".form-status");
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending..."; }
-      window.setTimeout(function () {
-        if (status) {
-          status.textContent = "Thank you — your request has been received. A member of the RADA AI team will be in touch within one business day.";
-          status.classList.add("show", "ok");
-        }
-        form.reset();
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Book my diagnostic"; }
-      }, 700);
+
+      var data = new URLSearchParams(new FormData(form)).toString();
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: data,
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error("Form submission failed: " + response.status);
+          if (status) {
+            status.textContent = "Thank you — your request has been received. A member of the RADA AI team will be in touch within one business day.";
+            status.classList.remove("error");
+            status.classList.add("show", "ok");
+          }
+          form.reset();
+        })
+        .catch(function () {
+          if (status) {
+            status.textContent = "Something went wrong sending this — please email us directly at contact@radaai.ai instead.";
+            status.classList.remove("ok");
+            status.classList.add("show", "error");
+          }
+        })
+        .finally(function () {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Book my diagnostic"; }
+        });
     });
   }
 })();

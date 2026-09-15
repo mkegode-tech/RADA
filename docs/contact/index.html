@@ -107,7 +107,7 @@
     <div class="info-grid">
       <div class="info-card">
         <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
-        <div><h4>Email Us</h4><a href="mailto:limitedrada@gmail.com">limitedrada@gmail.com</a></div>
+        <div><h4>Email Us</h4><a href="mailto:contact@radaai.ai">contact@radaai.ai</a></div>
       </div>
       <div class="info-card">
         <div class="icon-chip amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-2.5 1.5a12 12 0 0 0 6 6L15 14l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2Z"/></svg></div>
@@ -132,7 +132,9 @@
         <span class="eyebrow">Book a diagnostic</span>
         <h2 style="font-size:24px;margin-bottom:8px;">Tell us about your organization</h2>
         <p style="color:var(--ink-600);font-size:14.5px;margin-bottom:24px;">This first form is intentionally short. We'll ask deeper qualification questions once we understand your priority.</p>
-        <form data-diagnostic-form novalidate>
+        <form data-diagnostic-form name="diagnostic" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="diagnostic">
+          <p style="position:absolute;left:-9999px;" aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
           <div class="form-grid">
             <div class="field"><label for="f-name">Full name &amp; role</label><input id="f-name" name="name" type="text" placeholder="e.g. Jane Doe, Chief Operating Officer" required></div>
             <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" placeholder="Company name" required></div>
@@ -176,7 +178,7 @@
       <div class="reveal">
         <div class="side-card navy">
           <h4 style="font-size:15px;margin-bottom:14px;">Other ways to reach us</h4>
-          <div class="hours-row"><span>Speak to RADA AI</span><span><a href="mailto:limitedrada@gmail.com" style="color:var(--teal-400);">limitedrada@gmail.com</a></span></div>
+          <div class="hours-row"><span>Speak to RADA AI</span><span><a href="mailto:contact@radaai.ai" style="color:var(--teal-400);">contact@radaai.ai</a></span></div>
           <div class="hours-row"><span>Training proposal</span><span><a href="../services/ai-training-capability-building/index.html#proposal" style="color:var(--teal-400);">Request one</a></span></div>
           <div class="hours-row"><span>Similar use case</span><span><a href="../use-cases/index.html" style="color:var(--teal-400);">Browse examples</a></span></div>
           <div class="side-photo"><img src="../assets/img/photos/contact-side.jpg" alt="Modern office building exterior at dusk"></div>
@@ -238,7 +240,7 @@
       <div class="footer-col">
         <h5>Contact</h5>
         <ul>
-          <li><a href="mailto:limitedrada@gmail.com">limitedrada@gmail.com</a></li>
+          <li><a href="mailto:contact@radaai.ai">contact@radaai.ai</a></li>
           <li><a href="tel:+254722459052">+254 722 459 052</a></li>
           <li><a href="index.html">Crescent Business Centre, Parklands, Nairobi</a></li>
         </ul>
