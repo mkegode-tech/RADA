@@ -64,6 +64,25 @@ by the client — not placeholders:
   they'd rather move to a branded address (e.g. `hello@radaai.com`) once that mailbox exists
 - **Date of registration:** 25 June 2026 (used for the "Est. 2026" badge on the About page)
 
+## Logo
+
+The header/footer mark is the client's real "Interlock" logo (two outlined interlocking diamonds —
+teal and navy, with a white knocked-out diamond at the intersection), rebuilt as clean SVG from the
+design team's Claude Design canvas screenshots — there's no vector export available yet, so this is
+a faithful hand-rebuilt approximation, not a pixel-exact export. Worth re-checking against the real
+file once one exists.
+
+- `assets/img/mark.svg` — light-background version (teal + navy outline), used in the main header
+- `assets/img/mark-reversed.svg` — dark-background version (teal + white outline), used in the
+  mobile nav drawer and footer, both of which sit on the navy background
+- `assets/img/favicon.svg` — solid-fill fallback (teal + white on a navy tile), used for the browser
+  tab icon, following the design team's own documented guidance that the outline version closes up
+  below ~28px and should switch to a solid cut at small sizes
+
+Not yet built: the avatar/tile variants shown in the design system (circular avatar, square social
+tiles) — straightforward to produce from the same shapes if you want them for LinkedIn/social profile
+pictures.
+
 ## Photography
 
 `assets/img/photos/` holds 8 photos used across the site, styled with two treatments matching the
@@ -124,9 +143,7 @@ The source album also contained personal/family photos — only this one profess
    (§13).
 3. **Analytics / Search Console** — no GA4 snippet or verification tag is included; add them to
    `build.js`'s `renderHead()` once the property IDs exist.
-4. **Real logo** — the header/footer mark is a simple placeholder geometric mark (three nodes for
-   Visibility/Control/Intelligence), not a designed brand identity.
-5. **Case studies** — once RADA AI has a real client engagement with permission to publish, replace
+4. **Case studies** — once RADA AI has a real client engagement with permission to publish, replace
    the single illustrative example on the homepage (and add a dedicated case-studies section, per
    brief Phase 2).
 
