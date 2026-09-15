@@ -79,9 +79,26 @@ file once one exists.
   tab icon, following the design team's own documented guidance that the outline version closes up
   below ~28px and should switch to a solid cut at small sizes
 
-Not yet built: the avatar/tile variants shown in the design system (circular avatar, square social
-tiles) — straightforward to produce from the same shapes if you want them for LinkedIn/social profile
-pictures.
+### Avatar & social tiles
+
+Built for social profile pictures (LinkedIn, X, Facebook, etc.) — solid-fill versions since these
+always render small, using the same "solid cut" recipe as the favicon:
+
+- `assets/img/avatar-navy.svg` / `.png` — circular, navy background, for personal/company profile photos
+- `assets/img/tile-light.svg` / `.png` — rounded-square, off-white background, navy + teal icon
+- `assets/img/tile-teal.svg` / `.png` — rounded-square, teal background, white icon
+
+PNGs are exported at 400×400 (`*@400.png`) — big enough for every platform's upload requirement
+(LinkedIn wants ≥300×300, X/Facebook ≥320×320); each platform will downscale from there. Social
+platforms require raster uploads, not SVG, so use the `.png` files directly, not the `.svg` source.
+
+**Small-size finding, checked directly rather than assumed:** rendered `avatar-navy` at actual
+16px and 32px (real favicon/thumbnail sizes, not just a 72px mockup). At 32px it still reads
+clearly as the interlock shape with the window visible. At 16px, the window cutout and the
+interlock detail essentially disappear — it reads as a colored blob, not the mark. That matches
+the concern raised in the logo critique: worth deciding whether 16px favicon legibility actually
+matters for your use case (most browsers show tab favicons at 16px) or whether it's an acceptable
+tradeoff given the mark still works everywhere else.
 
 ## Photography
 
