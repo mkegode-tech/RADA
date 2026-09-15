@@ -80,13 +80,18 @@ exactly, and avoids implying that random stock-photo strangers are RADA AI staff
 
 | File | Used on | Pexels photo ID | Photographer |
 |---|---|---|---|
-| `exec-problem.jpg` | Home — executive problem section | 36149083 | Jakub Zerdzicki |
 | `pillar-strategy.jpg` | What We Do — Strategy pillar | 29521529 | Jakub Zerdzicki |
 | `pillar-training.jpg` | What We Do — Training pillar | 8092420 | Karola G |
 | `pillar-automation.jpg` | What We Do — Automation pillar | 38888656 | Jakub Zerdzicki |
 | `pillar-intelligence.jpg` | What We Do — Executive Intelligence pillar | 5511089 | Mike van Schoonderwalt |
 | `about-hero.jpg` | About — hero background | 443400 | Sevenstorm Juhaszimrus |
 | `contact-side.jpg` | Contact — side panel | 532562 | Scott Webb |
+
+`exec-problem.jpg` (the boardroom-chairs photo) is no longer used — the partner review flagged it as
+the weakest visual on the site ("generic stock photography"), so the homepage's executive-problem
+section now uses a custom SVG diagram instead (disconnected Finance/Sales/Operations/Support/Reports
+tiles with broken links), matching the reviewer's stated preference for "dashboards, diagrams, icons
+and management-intelligence visuals." The file is still on disk if you want it back for something else.
 
 If real AI-generation access becomes available later (a Midjourney/Firefly/DALL·E subscription, or
 an API key you want wired in), the prompts for that route are already drafted in this conversation
@@ -124,6 +129,29 @@ The source album also contained personal/family photos — only this one profess
 5. **Case studies** — once RADA AI has a real client engagement with permission to publish, replace
    the single illustrative example on the homepage (and add a dedicated case-studies section, per
    brief Phase 2).
+
+## Partner review — status
+
+Tracking against `RADA_AI_Website_Review_Comments_for_Melvin.docx` (17 sections), same numbering:
+
+| # | Item | Status |
+|---|---|---|
+| I–II | Overall direction / what should remain | No change needed — confirmed as-is |
+| III | Shorten the homepage 25–35% | Partial — restructured per §XVI's sequence, removed the duplicate pillar intro, compacted the 6-step timeline into a pill row, compacted the case study. Measured visible-text reduction is ~15%, short of the 25–35% target — the two new mandated sections (Diagnostic, Leadership) added back some of what was cut. Vertical/scroll length dropped more than the word count suggests, since the timeline and case-study block were the tallest elements and are now far more compact. Worth a follow-up pass focused specifically on word count if 25–35% is a hard requirement. |
+| IV | Label the Executive Snapshot as illustrative | Done — header now reads "Illustrative Executive Snapshot" plus an explicit caption under the KPIs |
+| V | Rework the illustrative case study | Done — replaced the dense green block with 3 compact cards (Challenge / What RADA Did / Outcome) + a slim process-flow row |
+| VI | Replace the generic boardroom image | Done — replaced with a custom SVG diagram (disconnected systems with broken links), matching the reviewer's stated preference for diagrams over stock photography |
+| VII | Add leadership credibility | Done — compact leadership strip added to the homepage (photo, name, role, one-line, link to About) |
+| VIII | Strengthen trust signals | Not started — client logos, real workshop photos, partnerships, verified case studies and testimonials all require evidence/permissions RADA doesn't have yet. Left as a phase-2 backlog item; don't fabricate any of these. |
+| IX | Elevate the AI Business Diagnostic | Partial — dedicated homepage section built (what we review / what you receive / who it's for). A fully separate `/diagnostic/` page was not built (review said "eventually a dedicated page") — flag if you want that now instead of later |
+| X | Make training more distinctive | Done — training page now names the 5 programmes explicitly (Executive AI Literacy, AI for Managers, Agentic AI Productivity, Department-Specific Training, Responsible AI & Governance) |
+| XI | Add an AI Governance & Responsible AI page | Done — new page at `/governance/`, linked from the main nav dropdown, mobile menu and footer |
+| XII | Refine some copy | Done for the specific example given (the "operating discipline" paragraph); not a full copy pass across every page |
+| XIII | Use a corporate email before launch | Not done — can't fabricate a domain that doesn't exist yet. `limitedrada@gmail.com` stays until you confirm the real domain address |
+| XIV | Logo tagline on mobile | Done — tightened letter-spacing and added `white-space: nowrap` so it doesn't wrap awkwardly on small screens |
+| XV | Consistent address details | Already consistent site-wide from the previous session's work — no change needed |
+| XVI | Recommended homepage sequence | Done — homepage now follows this order (Hero → Problem → What RADA Does → Framework → Use Cases → How We Work → Why RADA + Leadership → Diagnostic → Illustrative Example → Insights → Final CTA) |
+| XVII | Final direction | No change needed — already the operating principle throughout |
 
 ## On replicating the reference site's exact WordPress/PHP/MySQL stack
 

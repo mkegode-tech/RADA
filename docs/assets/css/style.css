@@ -135,7 +135,7 @@ section { position: relative; }
 .nav-row { display: flex; align-items: center; justify-content: space-between; height: 82px; }
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--navy-900); }
 .brand-mark { width: 38px; height: 38px; flex-shrink: 0; }
-.brand small { display: block; font-family: var(--font-body); font-weight: 600; font-size: 10px; letter-spacing: 0.16em; color: var(--teal-600); }
+.brand small { display: block; font-family: var(--font-body); font-weight: 600; font-size: 10px; letter-spacing: 0.16em; color: var(--teal-600); white-space: nowrap; }
 
 .nav-links { display: flex; align-items: center; gap: 2px; flex-wrap: nowrap; }
 .nav-links > li { position: relative; }
@@ -279,6 +279,43 @@ section { position: relative; }
 .timeline-body h4 { font-size: 17px; color: var(--navy-900); margin-bottom: 4px; }
 .timeline-body p { color: var(--ink-600); font-size: 14.5px; }
 
+/* ---------- Compact step row (condensed "how we work") ---------- */
+.mini-steps { display: flex; flex-wrap: wrap; gap: 14px; }
+.mini-step {
+  flex: 1 1 150px; display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid var(--line); border-radius: 999px;
+  padding: 10px 16px 10px 10px; box-shadow: var(--shadow-sm);
+}
+.mini-step .num {
+  width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: var(--teal-400);
+  display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
+  font-size: 12.5px; flex-shrink: 0;
+}
+.mini-step .label { font-size: 13.5px; font-weight: 700; color: var(--navy-900); }
+
+/* ---------- Compact process flow (e.g. Diagnose -> Prioritize -> ...) ---------- */
+.flow-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.flow-row .step { font-size: 13px; font-weight: 700; color: var(--navy-900); background: var(--teal-tint); padding: 7px 14px; border-radius: 999px; }
+.flow-row .arrow { color: var(--ink-400); font-size: 13px; }
+
+/* ---------- Leadership preview strip (homepage) ---------- */
+.leader-strip {
+  display: flex; align-items: center; gap: 22px; background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 22px 26px; box-shadow: var(--shadow-sm); max-width: 720px; margin: 0 auto;
+}
+.leader-strip .photo-frame { width: 76px; aspect-ratio: 1/1; flex-shrink: 0; }
+.leader-strip h4 { font-size: 16px; color: var(--navy-900); }
+.leader-strip .role { font-size: 12.5px; font-weight: 700; color: var(--teal-600); margin-top: 2px; }
+.leader-strip p { font-size: 13.5px; color: var(--ink-600); margin-top: 6px; }
+.leader-strip .btn-ghost { flex-shrink: 0; margin-left: auto; }
+@media (max-width: 620px) {
+  .leader-strip { flex-direction: column; text-align: center; }
+  .leader-strip .btn-ghost { margin-left: 0; }
+}
+
+/* ---------- Illustrative-data caption (dashboard mock) ---------- */
+.dash-caption { margin-top: 12px; font-size: 11px; color: #93a1b8; text-align: center; }
+
 /* ---------- Table-style use case list ---------- */
 .usecase-list { display: flex; flex-direction: column; gap: 14px; }
 .usecase-row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 22px 26px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); align-items: start; }
@@ -414,6 +451,9 @@ textarea { min-height: 110px; resize: vertical; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .cta-band { padding: 44px 24px; }
   .hero, .hero--page { padding-top: 88px; }
+  .brand small { font-size: 9.5px; letter-spacing: 0.05em; }
+  .mini-steps { gap: 10px; }
+  .mini-step { flex: 1 1 calc(50% - 10px); }
 }
 
 /* ---------- Article / prose ---------- */
