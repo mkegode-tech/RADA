@@ -80,6 +80,10 @@
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
       var status = form.querySelector(".form-status");
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending..."; }
