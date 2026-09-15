@@ -1,0 +1,13 @@
+[build]
+  publish = "docs"
+  command = "node build-ghpages.js"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Netlify auto-serves docs/404.html for any unmatched route — no redirect rule needed,
+# it just has to exist in the publish directory (added by build-ghpages.js).

@@ -98,6 +98,24 @@ ${cookieBanner}
     fs.writeFileSync(path.join(outDir, "index.html"), html, "utf8");
   }
 
+  // 404.html at the publish root — GitHub Pages and Netlify both auto-serve this for
+  // unmatched routes. Not part of `pages`/the sitemap.
+  const notFoundBody = fs.readFileSync(path.join(ROOT, "src/pages/404.html"), "utf8");
+  let notFoundHtml = `${renderHead({ title: "Page Not Found | RADA AI", description: "The page you're looking for may have moved or no longer exists." })}
+<body>
+${header}
+<main>
+${notFoundBody}
+</main>
+${footer}
+${cookieBanner}
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
+`;
+  notFoundHtml = rewriteLinks(notFoundHtml, "");
+  fs.writeFileSync(path.join(OUT_ROOT, "404.html"), notFoundHtml, "utf8");
+
   copyDir(path.join(ROOT, "assets"), path.join(OUT_ROOT, "assets"));
 
   // Disable Jekyll processing — this is a plain static site, not a Jekyll one.

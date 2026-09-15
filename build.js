@@ -86,6 +86,23 @@ ${cookieBanner}
     count++;
   }
 
+  // 404.html — lives at the site root (not /404/) so GitHub Pages and Netlify both
+  // auto-serve it for unmatched routes. Deliberately not in `pages`/the sitemap.
+  const notFoundBody = fs.readFileSync(path.join(ROOT, "src/pages/404.html"), "utf8");
+  const notFoundHtml = `${renderHead({ title: "Page Not Found | RADA AI", description: "The page you're looking for may have moved or no longer exists.", out: "404-not-in-sitemap" })}
+<body>
+${header}
+<main>
+${notFoundBody}
+</main>
+${footer}
+${cookieBanner}
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
+`;
+  fs.writeFileSync(path.join(ROOT, "404.html"), notFoundHtml, "utf8");
+
   // sitemap.xml
   const urls = pages
     .map((p) => `  <url><loc>${SITE_URL}${canonicalPath(p.out)}</loc></url>`)
