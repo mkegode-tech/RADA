@@ -94,20 +94,22 @@ The repo is already set up for Cloudflare:
 - `build-ghpages.js` copies `_headers` into the `docs/` publish folder.
 - `docs/404.html` is served automatically for unknown URLs.
 
-### 2.1 Before touching DNS: record what exists today
+### 2.1 Current state (checked 28/09/2026)
 
-In the **current DNS provider** for `radaai.ai` (Netlify DNS if the domain uses Netlify
-nameservers, otherwise your registrar), export or screenshot **every** record. The ones that
-matter most are the Google Workspace email records. If they are lost, `contact@radaai.ai` stops
-receiving mail.
+`radaai.ai` **already uses Cloudflare nameservers** (`todd.ns.cloudflare.com`,
+`jacqueline.ns.cloudflare.com`), so there is no DNS or nameserver migration. Only the website
+records change.
 
-| Type | Name | Typical value |
+| Record | Value | Action |
 |---|---|---|
-| MX | `@` | `smtp.google.com` (priority 1). Older setups use the five `ASPMX.L.GOOGLE.COM`-style records |
-| TXT | `@` | `v=spf1 include:_spf.google.com ~all` |
-| TXT | `google._domainkey` | DKIM key (`v=DKIM1; k=rsa; p=…`) |
-| TXT | `_dmarc` | `v=DMARC1; p=…` |
-| TXT | `@` | `google-site-verification=…` |
+| A `@` | `75.2.60.5` | **Delete** (Netlify) |
+| A `@` | `99.83.231.61` | **Delete** (Netlify) |
+| CNAME `www` | `radaai.netlify.app` | **Delete** (Netlify) |
+| MX `@` | `smtp.google.com` (priority 1) | Keep: Google Workspace mail |
+| TXT `@` | `v=spf1 include:_spf.google.com ~all` | Keep |
+| TXT `@` | `google-site-verification=…`, `google-gws-recovery-domain-verification=…` | Keep |
+| TXT `google._domainkey` | DKIM key | Keep |
+| TXT `_dmarc` | `v=DMARC1; p=none; …` | Keep |
 
 ### 2.2 Create the Cloudflare Pages project (no downtime yet)
 
@@ -123,18 +125,11 @@ receiving mail.
    every page, the 404 page, and a **real form submission**, which should show up in the Sheet.
    From now on, every push to `main` redeploys automatically.
 
-### 2.3 Move the domain's DNS to Cloudflare
+### 2.3 Remove the Netlify website records
 
-1. In Cloudflare, click **Add a domain**, enter `radaai.ai`, and choose the **Free** plan.
-2. Cloudflare scans and imports the existing records. **Compare them against your export from
-   2.1** and add anything missing, especially the MX, SPF, DKIM and DMARC records. MX and TXT
-   records are always "DNS only".
-3. **Delete the old Netlify website records**: the `A`/`ALIAS` record for `@` (e.g. `75.2.60.5`)
-   and the `CNAME` for `www` pointing to `*.netlify.app`. Pages adds its own in 2.4.
-4. Cloudflare shows two nameservers (e.g. `xxx.ns.cloudflare.com`). At the **registrar** where
-   `radaai.ai` was bought, replace the current nameservers with these two.
-5. Wait for Cloudflare to email you that the domain is **Active**. This usually takes minutes to a
-   few hours, and can take up to 24–48 hours.
+In Cloudflare, open **radaai.ai → DNS → Records** and delete the three Netlify records from the
+table in 2.1. Leave every MX and TXT record alone. The site is unreachable from this step until
+2.4 completes, usually a few minutes, so do 2.3 and 2.4 back to back at a quiet time.
 
 ### 2.4 Attach the domain to the site
 
@@ -154,8 +149,7 @@ receiving mail.
    should show the 404 page) and a live form submission.
 2. Send a test email to `contact@radaai.ai` from an outside address, and reply from it. This
    confirms mail still flows both ways.
-3. Wait about 48 hours for DNS caches to expire, then delete the site in Netlify. If Netlify DNS
-   was in use, also remove the `radaai.ai` DNS zone there.
+3. Wait about 48 hours for DNS caches to expire, then delete the site in Netlify.
 
 ### Optional hardening once live
 
