@@ -156,9 +156,9 @@ The source album also contained personal/family photos — only this one profess
    inline as needing review by a lawyer before publishing.
 2. **Diagnostic form endpoint** — the form posts to a Google Apps Script web app
    (`google-apps-script/diagnostic-form.gs`) that logs to a Google Sheet and sends the team
-   notification + enquirer confirmation emails. The form's `action` URL in `src/pages/contact.html`
-   is a placeholder until the script is deployed — see `DEPLOYMENT.md` (which also covers hosting
-   on Cloudflare Pages).
+   notification + enquirer confirmation emails. The web app is deployed (28/09/2026) and its URL is
+   the form's `action` in `src/pages/contact.html`. Setup, updating and testing are covered in
+   `DEPLOYMENT.md`, which also covers hosting on Cloudflare Pages.
 3. **Analytics / Search Console** — no GA4 snippet or verification tag is included; add them to
    `build.js`'s `renderHead()` once the property IDs exist.
 4. **Case studies** — once RADA AI has a real client engagement with permission to publish, replace
