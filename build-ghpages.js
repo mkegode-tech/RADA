@@ -20,7 +20,7 @@
  */
 const fs = require("fs");
 const path = require("path");
-const { pages, ROOT } = require("./build.js");
+const { pages, ROOT, renderHead, writeSeoFiles } = require("./build.js");
 
 const OUT_ROOT = path.join(ROOT, "docs");
 
@@ -28,22 +28,8 @@ const header = fs.readFileSync(path.join(ROOT, "src/partials/header.html"), "utf
 const footer = fs.readFileSync(path.join(ROOT, "src/partials/footer.html"), "utf8");
 const cookieBanner = fs.readFileSync(path.join(ROOT, "src/partials/cookie-banner.html"), "utf8");
 
-function renderHead({ title, description }) {
-  return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${title}</title>
-<meta name="description" content="${description}">
-<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css">
-</head>`;
-}
-
+// Same <head> as build.js (canonical, Open Graph, etc.). Its absolute https:// URLs are
+// left alone by rewriteLinks(); only root-relative href/src values are made relative.
 // Turn a root-absolute link ("/about/", "/assets/css/style.css", "/contact/#diagnostic")
 // into the correct relative path from a given page's output folder.
 function toRelative(target, fromDir) {
@@ -120,6 +106,8 @@ ${cookieBanner}
   fs.writeFileSync(path.join(OUT_ROOT, "404.html"), notFoundHtml, "utf8");
 
   copyDir(path.join(ROOT, "assets"), path.join(OUT_ROOT, "assets"));
+
+  writeSeoFiles(OUT_ROOT);
 
   // Cloudflare Pages security headers (ignored by other hosts).
   fs.copyFileSync(path.join(ROOT, "_headers"), path.join(OUT_ROOT, "_headers"));

@@ -39,8 +39,15 @@ function canonicalPath(out) {
   return out === "" ? "/" : `/${out}/`;
 }
 
+// `out` omitted (e.g. the 404 page) -> no canonical/og:url, and noindex.
 function renderHead({ title, description, out }) {
-  const canonical = `${SITE_URL}${canonicalPath(out)}`;
+  const indexable = out !== undefined;
+  const canonical = indexable ? `${SITE_URL}${canonicalPath(out)}` : null;
+  const urlTags = indexable
+    ? `<link rel="canonical" href="${canonical}">
+`
+    : `<meta name="robots" content="noindex">
+`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -48,12 +55,11 @@ function renderHead({ title, description, out }) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
 <meta name="description" content="${description}">
-<link rel="canonical" href="${canonical}">
-<meta property="og:type" content="website">
+${urlTags}<meta property="og:type" content="website">
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${description}">
-<meta property="og:url" content="${canonical}">
-<meta property="og:site_name" content="RADA AI">
+${indexable ? `<meta property="og:url" content="${canonical}">
+` : ""}<meta property="og:site_name" content="RADA AI">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,10 +92,10 @@ ${cookieBanner}
     count++;
   }
 
-  // 404.html — lives at the site root (not /404/) so GitHub Pages and Netlify both
+  // 404.html — lives at the site root (not /404/) so Cloudflare Pages and GitHub Pages both
   // auto-serve it for unmatched routes. Deliberately not in `pages`/the sitemap.
   const notFoundBody = fs.readFileSync(path.join(ROOT, "src/pages/404.html"), "utf8");
-  const notFoundHtml = `${renderHead({ title: "Page Not Found | RADA AI", description: "The page you're looking for may have moved or no longer exists.", out: "404-not-in-sitemap" })}
+  const notFoundHtml = `${renderHead({ title: "Page Not Found | RADA AI", description: "The page you're looking for may have moved or no longer exists." })}
 <body>
 ${header}
 <main>
@@ -103,27 +109,30 @@ ${cookieBanner}
 `;
   fs.writeFileSync(path.join(ROOT, "404.html"), notFoundHtml, "utf8");
 
-  // sitemap.xml
-  const urls = pages
-    .map((p) => `  <url><loc>${SITE_URL}${canonicalPath(p.out)}</loc></url>`)
-    .join("\n");
-  fs.writeFileSync(
-    path.join(ROOT, "sitemap.xml"),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
-    "utf8"
-  );
-
-  // robots.txt
-  fs.writeFileSync(
-    path.join(ROOT, "robots.txt"),
-    `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`,
-    "utf8"
-  );
+  writeSeoFiles(ROOT);
 
   console.log(`Built ${count} pages -> sitemap.xml, robots.txt`);
 }
 
-module.exports = { pages, ROOT };
+// sitemap.xml + robots.txt, written into `dir` (repo root here; docs/ for build-ghpages.js).
+function writeSeoFiles(dir) {
+  const urls = pages
+    .map((p) => `  <url><loc>${SITE_URL}${canonicalPath(p.out)}</loc></url>`)
+    .join("\n");
+  fs.writeFileSync(
+    path.join(dir, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+    "utf8"
+  );
+
+  fs.writeFileSync(
+    path.join(dir, "robots.txt"),
+    `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`,
+    "utf8"
+  );
+}
+
+module.exports = { pages, ROOT, renderHead, writeSeoFiles };
 
 if (require.main === module) {
   build();
