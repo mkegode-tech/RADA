@@ -154,10 +154,11 @@ The source album also contained personal/family photos — only this one profess
 1. **Legal pages** — Privacy Policy / Terms / Cookie Policy now identify RADA AI Limited by name,
    company number and registered office, but are still solid-starting-point templates flagged
    inline as needing review by a lawyer before publishing.
-2. **The diagnostic form does not submit anywhere yet** — `assets/js/main.js` shows a success
-   message client-side only. Before launch, wire it to a real endpoint (CRM, Formspree, a serverless
-   function, etc.) and add the confirmation-email automation and spam protection the brief asks for
-   (§13).
+2. **Diagnostic form endpoint** — the form posts to a Google Apps Script web app
+   (`google-apps-script/diagnostic-form.gs`) that logs to a Google Sheet and sends the team
+   notification + enquirer confirmation emails. The form's `action` URL in `src/pages/contact.html`
+   is a placeholder until the script is deployed — see `DEPLOYMENT.md` (which also covers hosting
+   on Cloudflare Pages).
 3. **Analytics / Search Console** — no GA4 snippet or verification tag is included; add them to
    `build.js`'s `renderHead()` once the property IDs exist.
 4. **Case studies** — once RADA AI has a real client engagement with permission to publish, replace

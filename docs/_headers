@@ -1,0 +1,6 @@
+# Cloudflare Pages response headers. Copied into docs/ by build-ghpages.js.
+# Syntax: https://developers.cloudflare.com/pages/configuration/headers/
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

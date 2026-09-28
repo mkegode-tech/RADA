@@ -138,9 +138,9 @@
         <span class="eyebrow">Book a diagnostic</span>
         <h2 style="font-size:24px;margin-bottom:8px;">Tell us about your organization</h2>
         <p style="color:var(--ink-600);font-size:14.5px;margin-bottom:24px;">This first form is intentionally short. We'll ask deeper qualification questions once we understand your priority.</p>
-        <form data-diagnostic-form name="diagnostic" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="diagnostic">
-          <p style="position:absolute;left:-9999px;" aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+        <!-- action = the Google Apps Script web-app URL (see DEPLOYMENT.md, section 1) -->
+        <form data-diagnostic-form name="diagnostic" method="POST" action="https://script.google.com/macros/s/REPLACE_WITH_DEPLOYMENT_ID/exec" novalidate>
+          <p style="position:absolute;left:-9999px;" aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <div class="form-grid">
             <div class="field"><label for="f-name">Full name &amp; role</label><input id="f-name" name="name" type="text" placeholder="e.g. Jane Doe, Chief Operating Officer" required></div>
             <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" placeholder="Company name" required></div>

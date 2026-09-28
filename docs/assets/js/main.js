@@ -74,11 +74,11 @@
     }
   }
 
-  // Diagnostic / contact form — front-end only.
-  // Wire this to the firm's CRM / email-automation endpoint before go-live (see README).
-  // Submits to Netlify Forms (see the form's data-netlify/form-name attributes in contact.html).
-  // On any host other than Netlify this POST 404s — the catch block below still tells the
-  // visitor something went wrong rather than falsely claiming success.
+  // Diagnostic form — POSTs to the Google Apps Script web app named in the form's action
+  // attribute (google-apps-script/diagnostic-form.gs), which logs to a Google Sheet and sends
+  // the team notification + enquirer confirmation emails. A urlencoded body keeps this a
+  // CORS "simple request" (no preflight, which Apps Script can't answer), and the script's
+  // JSON reply is readable after Google's redirect. Host-independent: works on any static host.
   var form = document.querySelector("[data-diagnostic-form]");
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -91,14 +91,19 @@
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending..."; }
 
-      var data = new URLSearchParams(new FormData(form)).toString();
-      fetch("/", {
+      var data = new URLSearchParams(new FormData(form));
+      data.append("page", window.location.pathname);
+      fetch(form.action, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: data,
+        body: data.toString(),
       })
         .then(function (response) {
           if (!response.ok) throw new Error("Form submission failed: " + response.status);
+          return response.json();
+        })
+        .then(function (result) {
+          if (!result || !result.ok) throw new Error("Form rejected: " + (result && result.error));
           if (status) {
             status.textContent = "Thank you — your request has been received. A member of the RADA AI team will be in touch within one business day.";
             status.classList.remove("error");

@@ -1,5 +1,6 @@
 /**
- * Builds a relative-path copy of the site into docs/ for GitHub Pages.
+ * Builds a relative-path copy of the site into docs/ — the publish folder for
+ * Cloudflare Pages (see DEPLOYMENT.md) and, if ever needed, GitHub Pages.
  *
  * Why not just use build.js's output directly? Because GitHub Pages project
  * sites are served under a subpath (username.github.io/repo-name/), so the
@@ -12,6 +13,8 @@
  * GitHub Pages setup (after this has been run and pushed):
  *   Repo Settings -> Pages -> Source: Deploy from a branch
  *   Branch: main (or whichever), folder: /docs
+ *
+ * Cloudflare Pages setup: build command "node build-ghpages.js", output directory "docs".
  *
  * Run: node build-ghpages.js
  */
@@ -98,7 +101,7 @@ ${cookieBanner}
     fs.writeFileSync(path.join(outDir, "index.html"), html, "utf8");
   }
 
-  // 404.html at the publish root — GitHub Pages and Netlify both auto-serve this for
+  // 404.html at the publish root — Cloudflare Pages and GitHub Pages both auto-serve this for
   // unmatched routes. Not part of `pages`/the sitemap.
   const notFoundBody = fs.readFileSync(path.join(ROOT, "src/pages/404.html"), "utf8");
   let notFoundHtml = `${renderHead({ title: "Page Not Found | RADA AI", description: "The page you're looking for may have moved or no longer exists." })}
@@ -118,10 +121,13 @@ ${cookieBanner}
 
   copyDir(path.join(ROOT, "assets"), path.join(OUT_ROOT, "assets"));
 
+  // Cloudflare Pages security headers (ignored by other hosts).
+  fs.copyFileSync(path.join(ROOT, "_headers"), path.join(OUT_ROOT, "_headers"));
+
   // Disable Jekyll processing — this is a plain static site, not a Jekyll one.
   fs.writeFileSync(path.join(OUT_ROOT, ".nojekyll"), "", "utf8");
 
-  console.log(`Built ${pages.length} pages -> docs/ (relative paths, ready for GitHub Pages)`);
+  console.log(`Built ${pages.length} pages -> docs/ (relative paths, ready for Cloudflare Pages)`);
 }
 
 build();
