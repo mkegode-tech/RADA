@@ -10,9 +10,12 @@
  * editor of a Google Sheet (Extensions -> Apps Script). Setup steps are in
  * DEPLOYMENT.md, section 1.
  *
- * Emails are sent from whichever Google Workspace account deploys the web app,
- * so deploy it while signed in as contact@radaai.ai (or an account that owns
- * the mailbox you want replies to come from).
+ * Deploy it from any regular radaai.ai user account (contact@radaai.ai is a Google
+ * Group, which can't sign in). Both emails are sent from Workspace's
+ * noreply@radaai.ai address rather than the deploying user's own address, so
+ * which account deploys doesn't show to enquirers, and the notification still
+ * reaches the deployer's inbox via the group. Reply-To routes replies correctly:
+ * the team's replies go to the enquirer; the enquirer's replies go to contact@.
  */
 
 var CONFIG = {
@@ -129,6 +132,7 @@ function sendNotification_(data) {
 
   MailApp.sendEmail({
     to: CONFIG.NOTIFY_TO,
+    noReply: true,
     replyTo: data.email,
     name: CONFIG.SENDER_NAME + " Website",
     subject: "New diagnostic request — " + data.company,
@@ -150,6 +154,7 @@ function sendConfirmation_(data) {
   var firstName = data.name.split(/[ ,]/)[0];
   MailApp.sendEmail({
     to: data.email,
+    noReply: true,
     replyTo: CONFIG.NOTIFY_TO,
     name: CONFIG.SENDER_NAME,
     subject: "We've received your AI Business Diagnostic request",

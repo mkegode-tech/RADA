@@ -24,23 +24,31 @@ Spam controls:
 
 ### 1.1 Create the Sheet and script
 
-1. Sign in to Google as **contact@radaai.ai**. Emails go out from whichever account deploys the
-   script, so the account matters.
+1. Sign in to Google as a **regular radaai.ai user**, ideally the admin account.
+   `contact@radaai.ai` is a Google Group, so it can't sign in or own a script. Both emails go out
+   from `noreply@radaai.ai`, with Reply-To set correctly, so which account deploys doesn't show to
+   anyone. That account must stay active, though: if it is deleted, the form stops working.
 2. Create a Google Sheet named **RADA AI — Diagnostic Submissions**. Keep it private to the team.
-3. In the Sheet, open **Extensions → Apps Script**. Delete the starter code, paste in the full
+   Putting it in a **Shared drive** means the Sheet itself survives staff changes.
+3. Check the **contact@ group's settings** in Google Groups:
+   - **Who can post:** set it to **Anyone on the web**. Otherwise enquirers' replies to the
+     confirmation email, and any outside email, bounce.
+   - **Message moderation:** set it to *No moderation*, so notifications aren't held for approval.
+   - **Members:** everyone who should receive enquiries.
+4. In the Sheet, open **Extensions → Apps Script**. Delete the starter code, paste in the full
    contents of `google-apps-script/diagnostic-form.gs`, and save.
-4. Choose the function **`setup`** from the function dropdown and click **Run**. Google asks you
+5. Choose the function **`setup`** from the function dropdown and click **Run**. Google asks you
    to authorise access to Sheets and Gmail. Go through **Advanced → Go to … (unsafe)**. That
    warning is normal for a private script you wrote yourself. A `Submissions` tab with headers
    appears.
-5. Run **`testSubmission`**. You should see a test row in the Sheet, plus a notification email and
-   a confirmation email in the contact@ inbox.
+6. Run **`testSubmission`**. You should see a test row in the Sheet, plus a notification email and
+   a confirmation email in your inbox (as a group member), both from noreply@radaai.ai.
 
 ### 1.2 Deploy as a web app
 
 1. Go to **Deploy → New deployment → Select type: Web app**, with these settings:
    - Description: `Diagnostic form v1`
-   - Execute as: **Me (contact@radaai.ai)**
+   - Execute as: **Me** (the account you signed in with)
    - Who has access: **Anyone**. This is required so the public website can post to it. If only
      "Anyone within radaai.ai" is offered, a Workspace admin has blocked external access. The
      admin needs to allow it under Admin console → Apps → Google Workspace → Drive and Docs →
