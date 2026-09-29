@@ -111,19 +111,28 @@ records change.
 | TXT `google._domainkey` | DKIM key | Keep |
 | TXT `_dmarc` | `v=DMARC1; p=none; …` | Keep |
 
-### 2.2 Create the Cloudflare Pages project (no downtime yet)
+### 2.2 The Cloudflare Worker (no downtime yet)
 
-1. Create a free account at dash.cloudflare.com, ideally as a company-owned account.
-2. Go to **Workers & Pages → Create → Pages → Connect to Git**. Authorise GitHub and pick
-   `mkegode-tech/RADA`.
-3. Use these build settings:
-   - Production branch: `main`
-   - Framework preset: **None**
-   - Build command: `node build-ghpages.js`
-   - Build output directory: `docs`
-4. Click **Save and Deploy**. You get a preview URL like `rada-xxx.pages.dev`. Test it fully:
-   every page, the 404 page, and a **real form submission**, which should show up in the Sheet.
-   From now on, every push to `main` redeploys automatically.
+The site is hosted as a Cloudflare **Worker** with static assets (Cloudflare's current
+recommended option, which replaces Pages). `wrangler.jsonc` in the repo root tells it to serve
+`docs/`, use `docs/404.html` for unknown URLs, and apply `_headers`.
+
+The Worker is named **`rada-ai`** and must stay that way: the `name` in `wrangler.jsonc` has to
+match it.
+
+Its build settings (**Worker → Settings → Build**):
+
+| Setting | Value |
+|---|---|
+| Git repository | **`mkegode-tech/RADA`**. Not `RADA-AI-`, an unrelated Next.js starter |
+| Branch | `main` |
+| Build command | `node build-ghpages.js` |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | `/` |
+
+Every push to `main` rebuilds and redeploys automatically. Test the `*.workers.dev` address fully
+before attaching the domain: every page, the 404 page, and a **real form submission**, which should
+appear in the Sheet.
 
 ### 2.3 Remove the Netlify website records
 
@@ -133,7 +142,7 @@ table in 2.1. Leave every MX and TXT record alone. The site is unreachable from 
 
 ### 2.4 Attach the domain to the site
 
-1. Open **Workers & Pages → your project → Custom domains → Set up a custom domain** and add
+1. Open **Workers & Pages → rada-ai → Settings → Domains & Routes → Add → Custom domain** and add
    `radaai.ai`. Repeat for `www.radaai.ai`. Cloudflare creates the DNS records and SSL
    certificates.
 2. Redirect www to the main domain, since the site's canonical URLs are `https://radaai.ai/…`:

@@ -1,0 +1,12 @@
+// Cloudflare Workers static-assets config (used by the "npx wrangler deploy" step in
+// Cloudflare's Workers Builds). Build command: node build-ghpages.js -> docs/.
+// "name" must match the Worker's name in the Cloudflare dashboard.
+{
+  "name": "rada-ai",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./docs",
+    // Serve docs/404.html (with a 404 status) for unknown URLs.
+    "not_found_handling": "404-page"
+  }
+}
